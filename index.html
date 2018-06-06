@@ -214,7 +214,7 @@
 
    	var moneytable = (document.getElementById("moneytable"));
 
-   	for (var j=1; j<moneytable.rows.length; j++){
+   	for (var j=1; j<moneytable.rows.length-1; j++){
    		moneytable.rows[j].cells[2].innerHTML = "<div onclick='addtrans(this)'>+</div>";
    		// moneytable.rows[j].cells[2].addEventListener("click",addtrans);
    	}

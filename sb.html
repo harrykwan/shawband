@@ -1,0 +1,257 @@
+<html>
+
+<head>
+	<title>ShawBand1718</title>
+	<style>
+		body{
+			background-color: black;
+			color: white;
+			font-family: "Comic Sans MS", cursive, sans-serif;
+		}
+		.button {
+		  width: 40%;
+		  background-color: grey;
+		  border: none;
+		  color: white;
+		  padding: 16px 32px;
+		  text-align: center;
+		  font-size: 20px;
+		  margin: 2px 2px;
+		  opacity: 0.4;
+		  transition: 0.3s;
+		  display: inline-block;
+		  text-decoration: none;
+		  cursor: pointer;
+		}
+		.button:hover {opacity: 1}
+
+		.btn-group button {
+		    background-color: grey; /* Green background */
+		    border: 1px solid grey; /* Green border */
+		    color: white; /* White text */
+		    padding: 10px 24px; /* Some padding */
+		    cursor: pointer; /* Pointer/hand icon */
+		    float: left; /* Float the buttons side by side */
+		    width: 50%;
+		    font-size: 20px;
+		    opacity: 0.5;
+		}
+
+		/* Clear floats (clearfix hack) */
+		.btn-group:after {
+		    content: "";
+		    clear: both;
+		    display: table;
+		}
+
+		.btn-group button:not(:last-child) {
+		    border-right: none; /* Prevent double borders */
+		}
+
+		/* Add a background color on hover */
+		.btn-group button:hover {
+		    background-color: grey;
+		    opacity: 1;
+		}
+
+		table{
+			border: 3px solid grey;
+			width: 70%;
+		}
+		th, td{
+			
+			text-align: center;
+		}
+		th{
+			background-color: grey;
+			color: black;
+			font-size: 20px;
+		}
+		td{
+			border: 3px solid grey;
+		}
+	</style>
+
+	
+	<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+</head>
+
+<body>
+<h1 style="color: grey; position: fixed; top: 0; left: 20px; font-size: 60px; font-family: Impact, Charcoal, sans-serif">SHAWBAND 1718</h1>
+<div style="opacity: 0.3; width: 100%;"><img width="100%" src="img/Timeline.jpg"></div>
+<div class="btn-group" style="opacity: 0.8; width: 100%;">
+<button onclick="document.getElementById('money').style.display='';document.getElementById('history').style.display='none';">$$$</button>
+<button onclick="document.getElementById('money').style.display='none';document.getElementById('history').style.display='';">History</button>
+</div>
+
+<div id="money" style="text-align: center;">
+	<br>
+	<table id="moneytable" align="center">
+		<tr><th style="width: 45%;">Name</th><th style="width: 45%;">Shawband Own You</th><th style="width: 10%;"></th></tr>
+		<tr><td style="color: grey;">joseph</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">hea</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">tart</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">heidi</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">harry</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">sam</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">rita</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">shit</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">silver</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">chill</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">mich</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">old</td><td>0</td><td></td></tr>
+		<tr><th style="width: 45%;">Shawband Account</th><th style="width: 45%;">0</th><th style="width: 10%;"></th></tr>
+	</table>
+	<br><br><br><br><br><br>
+	<!-- <button onclick="addtrans()" class="button">Add Transaction</button> -->
+</div>
+<div id="history" style="display: none;text-align: center;"></div>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCJJ3FuanA--YPxTfvTR0tyCtitt04FOlc",
+    authDomain: "shawband1718-72d8e.firebaseapp.com",
+    databaseURL: "https://shawband1718-72d8e.firebaseio.com",
+    projectId: "shawband1718-72d8e",
+    storageBucket: "",
+    messagingSenderId: "197751155740"
+  };
+  firebase.initializeApp(config);
+
+ 	var userdb = firebase.database().ref('/');
+    var alldata;
+
+    userdb.on('value', function(snapshot){
+
+    	for (var j=1; j<moneytable.rows.length; j++){
+    		moneytable.rows[j].cells[1].innerHTML = 0;
+    	}
+        var tempsnap = snapshot.val();
+        alldata = tempsnap;
+        // console.log(snapshot.val());
+		document.getElementById("history").innerHTML = '<br>';
+        for (jj in tempsnap){
+            console.log(tempsnap[jj]);
+            var tempfrom = tempsnap[jj].from;
+            var tempto = tempsnap[jj].to;
+            var tempamount = tempsnap[jj].amount;
+            var temptitle = tempsnap[jj].title;
+            
+            
+        	if (tempfrom!='Shawband Account'){
+				for (var j=1; j<moneytable.rows.length; j++){
+					if (moneytable.rows[j].cells[0].innerHTML==tempfrom){
+						moneytable.rows[j].cells[1].innerHTML=Number(moneytable.rows[j].cells[1].innerHTML)+Number(tempamount);
+					}
+				}
+				document.getElementById("history").innerHTML+=temptitle+"("+jj+"): "+tempfrom+" ($"+tempamount+")<hr>";
+        	} else {
+        		for (var j=1; j<moneytable.rows.length; j++){
+					if (moneytable.rows[j].cells[0].innerHTML==tempfrom){
+						moneytable.rows[j].cells[1].innerHTML=Number(moneytable.rows[j].cells[1].innerHTML)-Number(tempamount);
+					}
+				}
+        		if (tempto!='null'&&tempto!=''){
+	            	var namevalid = 0;
+					for (var j=1; j<moneytable.rows.length; j++){
+						if (moneytable.rows[j].cells[0].innerHTML==tempto){
+							namevalid = j;
+						}
+					}
+					if (namevalid){
+						moneytable.rows[namevalid].cells[1].innerHTML=Number(moneytable.rows[namevalid].cells[1].innerHTML)-Number(tempamount);
+					}
+					if (tempamount>=0){
+						document.getElementById("history").innerHTML+=temptitle+"("+jj+"): "+tempfrom+" to "+tempto+" ($"+tempamount+")<hr>";
+					} else {
+						document.getElementById("history").innerHTML+=temptitle+"("+jj+"): "+tempto+" to "+tempfrom+" ($"+(-tempamount)+")<hr>";
+					}
+					
+	            } else {
+	            	if (tempamount>=0){
+						document.getElementById("history").innerHTML+=temptitle+"("+jj+"): "+tempfrom+" ($"+tempamount+")<hr>";
+					} else {
+						document.getElementById("history").innerHTML+=temptitle+"("+jj+"): Add to "+tempfrom+" ($"+(-tempamount)+")<hr>";
+					}
+	            	
+	            }
+        	}
+            
+        }
+
+        for (var j=1; j<moneytable.rows.length-1; j++){
+   			for (var k=j+1; k<moneytable.rows.length-1; k++){
+	   			if (moneytable.rows[j].cells[1].innerHTML<moneytable.rows[k].cells[1].innerHTML&&moneytable.rows[k].cells[1].innerHTML!='0'){
+	   				var temp = moneytable.rows[j].cells[0].innerHTML;
+	   				moneytable.rows[j].cells[0].innerHTML = moneytable.rows[k].cells[0].innerHTML;
+	   				moneytable.rows[k].cells[0].innerHTML = temp;
+	   				temp = moneytable.rows[j].cells[1].innerHTML;
+	   				moneytable.rows[j].cells[1].innerHTML = moneytable.rows[k].cells[1].innerHTML;
+	   				moneytable.rows[k].cells[1].innerHTML = temp;
+	   			}
+	   		}
+	   	}
+	   	for (var j=1; j<moneytable.rows.length-1; j++){
+	   		if (moneytable.rows[j].cells[1].innerHTML<0){
+	   			moneytable.rows[j].cells[1].style.color = "red";
+	   		} else if (moneytable.rows[j].cells[1].innerHTML==0){
+				moneytable.rows[j].cells[1].style.color = "grey";
+	   		} else {
+	   			moneytable.rows[j].cells[1].style.color = "white";
+	   		}
+	   		moneytable.rows[j].cells[2].style.color = "grey";
+	   	}
+    });
+
+    function pad(num) {
+        var s = num+"";
+        if (s<10){
+           s = "0" + s;
+        }
+        return s;
+    }
+
+   	var moneytable = (document.getElementById("moneytable"));
+
+   	for (var j=1; j<moneytable.rows.length; j++){
+   		moneytable.rows[j].cells[2].innerHTML = "<div onclick='addtrans(this)'>+</div>";
+   		// moneytable.rows[j].cells[2].addEventListener("click",addtrans);
+   	}
+
+   	
+
+   	function addtrans(x) {
+   		var name = x.parentNode.parentNode.cells[0].innerHTML;
+   		var anstitle = prompt("Transaction Title","transaction");
+   		var anstowho = 'null';
+   		if (anstitle){
+   			if (name=="Shawband Account"){
+	   			anstowho = prompt("ShawBand To Who");
+	   			console.log(anstowho);
+   			}
+   			var ansmoney = prompt("Amount");
+   			if (ansmoney){
+   				writeHistory(anstitle,name,anstowho,ansmoney);
+   			}
+   		}
+   	}
+
+    function writeHistory(title, fromwho, towho, amount) {
+    	var currentdate = new Date(); 
+        var nowdate =  pad(currentdate.getFullYear())+"-"+pad(currentdate.getMonth()+1)+"-"+pad(currentdate.getDate()); 
+        var nowtime =  pad(currentdate.getHours())+":"+pad(currentdate.getMinutes())+":"+pad(currentdate.getSeconds());
+      firebase.database().ref('/'+nowdate + ' ' + nowtime + '/').set({
+      	title: title,
+        from: fromwho,
+        to: towho,
+        amount: amount
+      });
+    }
+
+</script>
+
+<script src="https://juven.co/api/profiles/cuhk.shawband/widget/donation.js"></script>
+
+</body>
+</html>

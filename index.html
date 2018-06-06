@@ -182,7 +182,7 @@
 
         for (var j=1; j<moneytable.rows.length-1; j++){
    			for (var k=j+1; k<moneytable.rows.length-1; k++){
-	   			if (moneytable.rows[j].cells[1].innerHTML<moneytable.rows[k].cells[1].innerHTML&&moneytable.rows[k].cells[1].innerHTML!='0'||moneytable.rows[j].cells[1].innerHTML=='0'){
+	   			if (Number(moneytable.rows[j].cells[1].innerHTML)<Number(moneytable.rows[k].cells[1].innerHTML)&&moneytable.rows[k].cells[1].innerHTML!='0'||moneytable.rows[j].cells[1].innerHTML=='0'){
 	   				var temp = moneytable.rows[j].cells[0].innerHTML;
 	   				moneytable.rows[j].cells[0].innerHTML = moneytable.rows[k].cells[0].innerHTML;
 	   				moneytable.rows[k].cells[0].innerHTML = temp;

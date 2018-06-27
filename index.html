@@ -32,7 +32,7 @@
 		    padding: 10px 24px; /* Some padding */
 		    cursor: pointer; /* Pointer/hand icon */
 		    float: left; /* Float the buttons side by side */
-		    width: 50%;
+		    width: 33.3%;
 		    font-size: 20px;
 		    opacity: 0.5;
 		}
@@ -74,6 +74,25 @@
 		#history{
 			height: 800px;
 		}
+		.progressbar {
+		  width: 40%;
+		  background-color: black;
+		  border-radius: 13px; /* (height of inner div) / 2 + padding */
+		  padding: 3px;
+		  left: 0;
+		  right: 0;
+		  margin-left: auto;
+		  margin-right: auto;
+		  border: 2px solid grey;
+		  font-size: 10px;
+		}
+
+		.progressbar > div {
+		   background-color: grey;
+		   width: 40%; /* Adjust with JavaScript */
+		   height: 20px;
+		   border-radius: 10px;
+		}
 	</style>
 
 	
@@ -83,9 +102,35 @@
 <body>
 <h1 style="color: grey; position: fixed; top: 0; left: 20px; font-size: 60px; font-family: Impact, Charcoal, sans-serif">SHAWBAND 1718</h1>
 <div style="opacity: 0.3; width: 100%;"><img width="100%" src="img/Timeline.jpg"></div>
+<div id="loading">
+	<div class="button" style="width: 100%; padding-left: 0; padding-right: 0;"></div>
+	<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+	  <defs>
+	  
+	   <line class="mark" x1="0" y1="0" x2="0" y2="0" fill="none" stroke="grey" stroke-miterlimit="10" stroke-linecap="none" stroke-width="12"/>
+	    
+	   </defs>
+	 <g class="container1"/>
+	 <g class="container2"/>
+
+	</svg>
+	  <script src='js/TweenMax.min.js'></script>
+
+
+	    <script  src="js/index.js"></script>
+
+
+	<div style="text-align:center;clear:both">
+	<script src="/statics.js" type="text/javascript"></script>
+	</div>
+</div>
+<div id="mycontent">
+
+
 <div class="btn-group" style="opacity: 0.8; width: 100%;">
-<button onclick="document.getElementById('money').style.display='';document.getElementById('history').style.display='none';">$$$</button>
-<button onclick="document.getElementById('money').style.display='none';document.getElementById('history').style.display='';">History</button>
+	<button onclick="document.getElementById('money').style.display='';document.getElementById('history').style.display='none';document.getElementById('ppap').style.display='none';">$$$</button>
+	<button onclick="document.getElementById('money').style.display='none';document.getElementById('history').style.display='none';document.getElementById('ppap').style.display='';">PPAP</button>
+	<button onclick="document.getElementById('money').style.display='none';document.getElementById('history').style.display='';document.getElementById('ppap').style.display='none';">History</button>
 </div>
 
 <div id="money" style="text-align: center;">
@@ -109,9 +154,25 @@
 	<br><br><br><br><br><br>
 	<!-- <button onclick="addtrans()" class="button">Add Transaction</button> -->
 </div>
-<div id="history" style="display: none;text-align: center;"></div>
+
+<div id="ppap" style="display: none;text-align: center; color: grey; font-size: 20px;">
+	<br>
+	Recovery Progress:
+	<div id="progressbar" class="progressbar">
+	  <div></div>
+	</div>
+
+</div>
+
+
+<div id="history" style="display: none;text-align: center;"><br>empty</div>
+
+</div>
 
 <script>
+    document.getElementById("progressbar").childNodes[1].style.width = "0";
+    // document.getElementById("progressbar").childNodes[2] = "0%";
+    document.getElementById("mycontent").style.display = "none";
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyCJJ3FuanA--YPxTfvTR0tyCtitt04FOlc",
@@ -127,6 +188,8 @@
     var alldata;
 
     userdb.on('value', function(snapshot){
+    	document.getElementById("mycontent").style.display = "";
+    	document.getElementById("loading").style.display = "none";
 
     	for (var j=1; j<moneytable.rows.length; j++){
     		moneytable.rows[j].cells[1].innerHTML = 0;
@@ -207,6 +270,9 @@
 	   		moneytable.rows[j].cells[2].style.color = "grey";
 	   	}
     });
+	
+
+
 
     function pad(num) {
         var s = num+"";

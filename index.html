@@ -238,7 +238,10 @@
 						}
 					}
 				}
-				document.getElementById("history").innerHTML+=temptitle+"("+jj+"): "+tempfrom+" ($"+tempamount+")<hr>";
+				if (temptitle=="Ticket")
+					document.getElementById("history").innerHTML+=temptitle+"("+jj+"): "+tempfrom+" ($"+(-tempamount)+")<hr>";
+				else
+					document.getElementById("history").innerHTML+=temptitle+"("+jj+"): "+tempfrom+" ($"+tempamount+")<hr>";
         	} else {
         		for (var j=1; j<moneytable.rows.length; j++){
 					if (moneytable.rows[j].cells[0].innerHTML==tempfrom){

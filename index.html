@@ -157,11 +157,29 @@
 
 <div id="ppap" style="display: none;text-align: center; color: grey; font-size: 20px;">
 	<br>
-	Recovery Progress:
+	<table id="ppaptable" align="center">
+		<tr><th style="width: 45%;">Name</th><th style="width: 45%;">Tickets Amount</th><th style="width: 10%;"></th></tr>
+		<tr><td style="color: grey;">joseph</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">hea</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">tart</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">heidi</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">harry</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">sam</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">rita</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">cc</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">silver</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">chill</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">mich</td><td>0</td><td></td></tr>
+		<tr><td style="color: grey;">old</td><td>0</td><td></td></tr>
+		<tr><th style="width: 45%;">Juven</th><th style="width: 45%;">0</th><th style="width: 10%;"></th></tr>
+	</table>
+	<br>
+	Target Progress:
 	<div id="progressbar" class="progressbar">
 	  <div></div>
 	</div>
-
+	<br>
+	<br>
 </div>
 
 
@@ -193,7 +211,9 @@
 
     	for (var j=1; j<moneytable.rows.length; j++){
     		moneytable.rows[j].cells[1].innerHTML = 0;
+    		ppaptable.rows[j].cells[1].innerHTML = 0;
     	}
+
         var tempsnap = snapshot.val();
         alldata = tempsnap;
         // console.log(snapshot.val());
@@ -204,12 +224,18 @@
             var tempto = tempsnap[jj].to;
             var tempamount = tempsnap[jj].amount;
             var temptitle = tempsnap[jj].title;
+
             
-            
+            //=================================================================================================
         	if (tempfrom!='Shawband Account'){
 				for (var j=1; j<moneytable.rows.length; j++){
 					if (moneytable.rows[j].cells[0].innerHTML==tempfrom){
 						moneytable.rows[j].cells[1].innerHTML=Number(moneytable.rows[j].cells[1].innerHTML)+Number(tempamount);
+					}
+					if (ppaptable.rows[j].cells[0].innerHTML==tempfrom){
+						if (temptitle=="Ticket"){
+							ppaptable.rows[j].cells[1].innerHTML=Number(ppaptable.rows[j].cells[1].innerHTML)-Number(tempamount);
+						}
 					}
 				}
 				document.getElementById("history").innerHTML+=temptitle+"("+jj+"): "+tempfrom+" ($"+tempamount+")<hr>";
@@ -246,7 +272,7 @@
         	}
             
         }
-
+        //=================================================================================================
         for (var j=1; j<moneytable.rows.length-1; j++){
    			for (var k=j+1; k<moneytable.rows.length-1; k++){
 	   			if (Number(moneytable.rows[j].cells[1].innerHTML)<Number(moneytable.rows[k].cells[1].innerHTML)&&moneytable.rows[k].cells[1].innerHTML!='0'||moneytable.rows[j].cells[1].innerHTML=='0'){
@@ -269,6 +295,41 @@
 	   		}
 	   		moneytable.rows[j].cells[2].style.color = "grey";
 	   	}
+
+	   	for (var j=1; j<ppaptable.rows.length-1; j++){
+   			for (var k=j+1; k<ppaptable.rows.length-1; k++){
+	   			if (Number(ppaptable.rows[j].cells[1].innerHTML)<Number(ppaptable.rows[k].cells[1].innerHTML)&&ppaptable.rows[k].cells[1].innerHTML!='0'||ppaptable.rows[j].cells[1].innerHTML=='0'){
+	   				var temp2 = ppaptable.rows[j].cells[0].innerHTML;
+	   				ppaptable.rows[j].cells[0].innerHTML = ppaptable.rows[k].cells[0].innerHTML;
+	   				ppaptable.rows[k].cells[0].innerHTML = temp2;
+	   				temp2 = ppaptable.rows[j].cells[1].innerHTML;
+	   				ppaptable.rows[j].cells[1].innerHTML = ppaptable.rows[k].cells[1].innerHTML;
+	   				ppaptable.rows[k].cells[1].innerHTML = temp2;
+	   			}
+	   		}
+	   	}
+	   	for (var j=1; j<ppaptable.rows.length-1; j++){
+	   		if (ppaptable.rows[j].cells[1].innerHTML<0){
+	   			ppaptable.rows[j].cells[1].style.color = "red";
+	   		} else if (ppaptable.rows[j].cells[1].innerHTML==0){
+				ppaptable.rows[j].cells[1].style.color = "grey";
+	   		} else {
+	   			ppaptable.rows[j].cells[1].style.color = "white";
+	   		}
+	   		ppaptable.rows[j].cells[2].style.color = "grey";
+	   		
+	   	}
+
+	   	var ppapct = 0;
+	   	var mytarget = 230*3*12;
+	   	for (var j=1; j<ppaptable.rows.length; j++){
+	   		ppapct+=Number(ppaptable.rows[j].cells[1].innerHTML);
+	   	}
+	   	if ((ppapct/mytarget*100)>100)
+	   		document.getElementById("progressbar").childNodes[1].style.width = (100)+"%";
+	   	else
+	   		document.getElementById("progressbar").childNodes[1].style.width = (ppapct/mytarget*100)+"%";
+
     });
 	
 
@@ -289,6 +350,12 @@
    		// moneytable.rows[j].cells[2].addEventListener("click",addtrans);
    	}
 
+   	var ppaptable = (document.getElementById("ppaptable"));
+
+   	for (var j=1; j<ppaptable.rows.length-1; j++){
+   		ppaptable.rows[j].cells[2].innerHTML = "<div onclick='addticket(this)'>+</div>";
+   		// moneytable.rows[j].cells[2].addEventListener("click",addtrans);
+   	}
    	
 
    	function addtrans(x) {
@@ -305,6 +372,16 @@
    				writeHistory(anstitle,name,anstowho,ansmoney);
    			}
    		}
+   	}
+
+   	function addticket(x){
+   		var name = x.parentNode.parentNode.cells[0].innerHTML;
+   		var anstowho = 'null';
+   			var ansmoney = prompt("Amount");
+   			if (ansmoney){
+   				var ansquantity = Number(prompt("Quantity",1));
+   				writeHistory('Ticket',name,anstowho,(-ansmoney)*ansquantity);
+   			}
    	}
 
     function writeHistory(title, fromwho, towho, amount) {

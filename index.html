@@ -32,7 +32,8 @@
 		    padding: 10px 24px; /* Some padding */
 		    cursor: pointer; /* Pointer/hand icon */
 		    float: left; /* Float the buttons side by side */
-		    width: 33.3%;
+		    /* width: 33.3%; */
+				width: 50%;
 		    font-size: 20px;
 		    opacity: 0.5;
 		}
@@ -59,7 +60,7 @@
 			width: 70%;
 		}
 		th, td{
-			
+
 			text-align: center;
 		}
 		th{
@@ -95,7 +96,7 @@
 		}
 	</style>
 
-	
+
 	<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
 </head>
 
@@ -106,9 +107,9 @@
 	<div class="button" style="width: 100%; padding-left: 0; padding-right: 0;"></div>
 	<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
 	  <defs>
-	  
+
 	   <line class="mark" x1="0" y1="0" x2="0" y2="0" fill="none" stroke="grey" stroke-miterlimit="10" stroke-linecap="none" stroke-width="12"/>
-	    
+
 	   </defs>
 	 <g class="container1"/>
 	 <g class="container2"/>
@@ -128,9 +129,9 @@
 
 
 <div class="btn-group" style="opacity: 0.8; width: 100%;">
-	<button onclick="document.getElementById('money').style.display='';document.getElementById('history').style.display='none';document.getElementById('ppap').style.display='none';">$$$</button>
-	<button onclick="document.getElementById('money').style.display='none';document.getElementById('history').style.display='none';document.getElementById('ppap').style.display='';">PPAP</button>
-	<button onclick="document.getElementById('money').style.display='none';document.getElementById('history').style.display='';document.getElementById('ppap').style.display='none';">History</button>
+	<button onclick="document.getElementById('money').style.display='';document.getElementById('history').style.display='none';//document.getElementById('ppap').style.display='none';">$$$</button>
+	<!-- <button onclick="document.getElementById('money').style.display='none';document.getElementById('history').style.display='none';document.getElementById('ppap').style.display='';">PPAP</button> -->
+	<button onclick="document.getElementById('money').style.display='none';document.getElementById('history').style.display='';//document.getElementById('ppap').style.display='none';">History</button>
 </div>
 
 <div id="money" style="text-align: center;">
@@ -225,7 +226,7 @@
             var tempamount = tempsnap[jj].amount;
             var temptitle = tempsnap[jj].title;
 
-            
+
             //=================================================================================================
         	if (tempfrom!='Shawband Account'){
 				for (var j=1; j<moneytable.rows.length; j++){
@@ -263,17 +264,17 @@
 					} else {
 						document.getElementById("history").innerHTML+=temptitle+"("+jj+"): "+tempto+" to "+tempfrom+" ($"+(-tempamount)+")<hr>";
 					}
-					
+
 	            } else {
 	            	if (tempamount>=0){
 						document.getElementById("history").innerHTML+=temptitle+"("+jj+"): "+tempfrom+" ($"+tempamount+")<hr>";
 					} else {
 						document.getElementById("history").innerHTML+=temptitle+"("+jj+"): Add to "+tempfrom+" ($"+(-tempamount)+")<hr>";
 					}
-	            	
+
 	            }
         	}
-            
+
         }
         //=================================================================================================
         for (var j=1; j<moneytable.rows.length-1; j++){
@@ -320,7 +321,7 @@
 	   			ppaptable.rows[j].cells[1].style.color = "white";
 	   		}
 	   		ppaptable.rows[j].cells[2].style.color = "grey";
-	   		
+
 	   	}
 
 	   	var ppapct = 0;
@@ -334,7 +335,7 @@
 	   		document.getElementById("progressbar").childNodes[1].style.width = (ppapct/mytarget*100)+"%";
 
     });
-	
+
 
 
 
@@ -359,7 +360,7 @@
    		ppaptable.rows[j].cells[2].innerHTML = "<div onclick='addticket(this)'>+</div>";
    		// moneytable.rows[j].cells[2].addEventListener("click",addtrans);
    	}
-   	
+
 
    	function addtrans(x) {
    		var name = x.parentNode.parentNode.cells[0].innerHTML;
@@ -388,8 +389,8 @@
    	}
 
     function writeHistory(title, fromwho, towho, amount) {
-    	var currentdate = new Date(); 
-        var nowdate =  pad(currentdate.getFullYear())+"-"+pad(currentdate.getMonth()+1)+"-"+pad(currentdate.getDate()); 
+    	var currentdate = new Date();
+        var nowdate =  pad(currentdate.getFullYear())+"-"+pad(currentdate.getMonth()+1)+"-"+pad(currentdate.getDate());
         var nowtime =  pad(currentdate.getHours())+":"+pad(currentdate.getMinutes())+":"+pad(currentdate.getSeconds());
       firebase.database().ref('/'+nowdate + ' ' + nowtime + '/').set({
       	title: title,
